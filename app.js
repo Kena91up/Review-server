@@ -11,6 +11,23 @@ const express = require('express');
 
 const app = express();
 
+// Set up connect-mongo
+const session = require('express-session');
+const MongoStore = require('connect-mongo').default;
+
+app.use(session({
+    secret: 'NotMyAge',
+    saveUninitialized: false, 
+    resave: false, 
+    cookie: {
+      maxAge: 1000*60*60*24// is in milliseconds.  expiring in 1 day
+    },
+    store: new MongoStore({
+      mongoUrl: process.env.MONGODB_URI || "mongodb://localhost/ReactTodos",
+      ttl: 60*60*24, // is in seconds. expiring in 1 day
+    })
+}));
+
 // ℹ️ This function is getting exported from the config folder. It runs most middlewares
 require('./config')(app);
 
@@ -18,6 +35,14 @@ require('./config')(app);
 // Contrary to the views version, all routes are controled from the routes/index.js
 const allRoutes = require('./routes');
 app.use('/api', allRoutes);
+
+const cloudinaryRoutes = require('./routes/cloudinary.routes');
+app.use('/api', cloudinaryRoutes);
+
+const reviewRoutes = require('./routes/review.routes');
+app.use('/api', reviewRoutes);
+
+
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require('./error-handling')(app);

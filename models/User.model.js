@@ -2,12 +2,20 @@ const { Schema, model } = require("mongoose");
 
 // TODO: Please make sure you edit the user model to whatever makes sense in this case
 const userSchema = new Schema({
-  username: {
+  username: String, 
+  email: {
     type: String,
-    unique: true
+    required: true
   },
-  password: String
-});
+  passwordHash: {
+    type: String,
+    required: true
+  },
+  profileimage: {
+    type: String,
+    default:'https://res.cloudinary.com/havya16/image/upload/v1614781683/Reviewproject/user_sxem4m.png'
+  }
+})
 
 const User = model("User", userSchema);
 
