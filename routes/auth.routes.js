@@ -11,38 +11,38 @@ router.post('/signup', (req, res) => {
  
     // -----SERVER SIDE VALIDATION ----------
   
-    if (!username || !email || !password) {
-        res.status(500)
-          .json({
-            errorMessage: 'Please enter username, email and password'
-          });
-        return;  
-    }
-    const myRegex = new RegExp(/^[a-z0-9](?!.*?[^\na-z0-9]{2})[^\s@]+@[^\s@]+\.[^\s@]+[a-z0-9]$/);
-    if (!myRegex.test(email)) {
-        res.status(500).json({
-          errorMessage: 'Email format not correct'
-        });
-        return;  
-    }
-    const myPassRegex = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/);
-    if (!myPassRegex.test(password)) {
-      res.status(500).json({
-        errorMessage: 'Password needs to have 8 characters, a number and an Uppercase alphabet'
-      });
-      return;  
-    }
+    // if (!username || !email || !password) {
+    //     res.status(500)
+    //       .json({
+    //         errorMessage: 'Please enter username, email and password'
+    //       });
+    //     return;  
+    // }
+    // const myRegex = new RegExp(/^[a-z0-9](?!.*?[^\na-z0-9]{2})[^\s@]+@[^\s@]+\.[^\s@]+[a-z0-9]$/);
+    // if (!myRegex.test(email)) {
+    //     res.status(500).json({
+    //       errorMessage: 'Email format not correct'
+    //     });
+    //     return;  
+    // }
+    // const myPassRegex = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/);
+    // if (!myPassRegex.test(password)) {
+    //   res.status(500).json({
+    //     errorMessage: 'Password needs to have 8 characters, a number and an Uppercase alphabet'
+    //   });
+    //   return;  
+    // }
     
 
     // NOTE: We have used the Sync methods here. 
     // creating a salt 
     let salt = bcrypt.genSaltSync(10);
     let hash = bcrypt.hashSync(password, salt);
-    User.create({username: username, email, passwordHash: hash})
-      .then((User) => {
+    User.create({username, email, passwordHash: hash})
+      .then((user) => {
         // ensuring that we don't share the hash as well with the user
         user.passwordHash = "***";
-        res.status(200).json(User);
+        res.status(200).json(user);
       })
       .catch((err) => {
         if (err.code === 11000) {
@@ -97,7 +97,7 @@ router.post('/signin', (req, res) => {
                 //if passwords do not match
                 else {
                     res.status(500).json({
-                        error: 'Passwords don\'t match',
+                        error: 'Passwords does not match',
                     })
                   return; 
                 }

@@ -36,12 +36,17 @@ require('./config')(app);
 const allRoutes = require('./routes');
 app.use('/api', allRoutes);
 
+const authRoutes = require('./routes/auth.routes');
+app.use('/api', authRoutes);
+
 const cloudinaryRoutes = require('./routes/cloudinary.routes');
 app.use('/api', cloudinaryRoutes);
 
 const reviewRoutes = require('./routes/review.routes');
 app.use('/api', reviewRoutes);
 
+const apiRoutes = require('./routes/api.routes');
+app.use('/api', apiRoutes);
 
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes

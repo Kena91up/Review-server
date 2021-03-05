@@ -3,18 +3,19 @@ const router = express.Router()
 const Review = require('../models/Review.model');
 
 // find reviews by Id
-  
+router.get('/review/:id', (req, res) => {
+  /*
 const{title, description, image, date} = req.body;
 let review = {
   title: title,
   description: description,
   image: image,
   date: date 
-}
+*/
 
-  Review.findById(req.params.userId, review)
-   .then((review) => {
-        res.status(200).json(review)
+  Review.findById(req.params.userId,)
+   .then((response) => {
+        res.status(200).json(response)
    })
    .catch((err) => {
         res.status(500).json({
@@ -22,4 +23,5 @@ let review = {
              message: err
         })
    })
+  })
    module.exports = router;
