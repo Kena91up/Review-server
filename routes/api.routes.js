@@ -10,7 +10,8 @@ router.get("/businesses", (req, res, next) => {
     },
       params:{
         //categories: 'breakfast_brunch',
-        city: 'London'
+        city: 'London',
+        limit: 50,
       }
   })
   .then((response) =>{

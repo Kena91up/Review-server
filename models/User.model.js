@@ -16,7 +16,7 @@ const userSchema = new Schema({
     default:'https://res.cloudinary.com/havya16/image/upload/v1614781683/Reviewproject/user_sxem4m.png'
   },
   country: String,
-  favirote: String
+  favorite: String
 })
 
 const User = model("User", userSchema);
