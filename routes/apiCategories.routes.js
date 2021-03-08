@@ -9,7 +9,7 @@ router.get("/businesses", (req, res, next) => {
       Authorization: `Bearer ${process.env.API_KEY}`
     },
       params:{
-        location: 'London'
+        location: 'Paris'
       }
   })
   .then((response) =>{

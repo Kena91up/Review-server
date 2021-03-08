@@ -3,7 +3,7 @@
 require('dotenv/config');
 
 // ℹ️ Connects to the database
-require('./db');
+const db = require('./db');
 
 // Handles http requests (express is node js framework)
 // https://www.npmjs.com/package/express
@@ -23,7 +23,7 @@ app.use(session({
       maxAge: 1000*60*60*24// is in milliseconds.  expiring in 1 day
     },
     store: new MongoStore({
-      mongoUrl: process.env.MONGODB_URI || "mongodb://localhost/ReactTodos",
+      mongoUrl: db.mongoURI,
       ttl: 60*60*24, // is in seconds. expiring in 1 day
     })
 }));
@@ -48,8 +48,6 @@ app.use('/api', reviewRoutes);
 const apiRoutes = require('./routes/api.routes');
 app.use('/api', apiRoutes);
 
-const apiCateRoutes = require('./routes/apiCategories.routes');
-app.use('/api', apiCateRoutes);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require('./error-handling')(app);

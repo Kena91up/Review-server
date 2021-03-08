@@ -4,13 +4,14 @@ const axios = require("axios")
 
 router.get("/businesses", (req, res, next) => {
   //cons {searchTerm} = req.body
+
   axios.get('https://api.yelp.com/v3/businesses/search?location=${locationSearched}', {
     headers: {
       Authorization: `Bearer ${process.env.API_KEY}`
     },
       params:{
-        //categories: 'breakfast_brunch',
-        city: 'London'
+        city: 'Paris',
+        limit: 50,
       }
   })
   .then((response) =>{
