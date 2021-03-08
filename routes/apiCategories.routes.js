@@ -4,13 +4,12 @@ const axios = require("axios")
 
 router.get("/businesses", (req, res, next) => {
   //cons {searchTerm} = req.body
-  axios.get('https://api.yelp.com/v3/businesses/search?location=${locationSearched}', {
+  axios.get('https://api.yelp.com/v3/categories/{alias}', {
     headers: {
       Authorization: `Bearer ${process.env.API_KEY}`
     },
       params:{
-        //categories: 'breakfast_brunch',
-        city: 'London'
+        location: 'London'
       }
   })
   .then((response) =>{
@@ -21,6 +20,3 @@ router.get("/businesses", (req, res, next) => {
   })
 });
 module.exports = router;
-
-
-// https://api.yelp.com/v3/businesses/Vaq49W0ubGjuIc4h5_qQ0w
