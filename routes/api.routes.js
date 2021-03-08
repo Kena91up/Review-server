@@ -20,7 +20,7 @@ router.get("/businesses", (req, res, next) => {
   })
 });
 
-//route to handle dynamic searches
+//route to handle dynamic searches for restaurant details
 
 router.get("/businesses/:restaurantId", (req, res, next) => {
   axios.get(`https://api.yelp.com/v3/businesses/${req.params.restaurantId}`, {
