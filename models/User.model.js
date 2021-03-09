@@ -14,7 +14,9 @@ const userSchema = new Schema({
   profileimage: {
     type: String,
     default:'https://res.cloudinary.com/havya16/image/upload/v1614781683/Reviewproject/user_sxem4m.png'
-  }
+  },
+  country: String,
+  favorite: String
 })
 
 const User = model("User", userSchema);

@@ -24,4 +24,35 @@ let review = {
         })
    })
   })
+
+  router.get('/reviews', (req, res, next) => {
+       
+       const restaurantId = req.query.restaurantId;
+       
+      Review.find({restaurantId: restaurantId})
+      .then((reviews) => {
+        res.status(200).json(reviews)
+      })
+      .catch((err) => {
+          res.status(500).json({
+               error: 'Something went wrong',
+               message: err
+          })
+      })  
+
+  })
+
+  /*
+  router.post("/upload", function(req, res, next) {
+     const fileGettingUploaded = req.body.image;
+ 
+     cloudinary.uploader.upload(fileGettingUploaded, function(response, error) {
+         if (response) {
+             res.status(200).json(response);
+         } else {
+             res.status(500).json(response);
+         }
+     });
+ });
+ */
    module.exports = router;

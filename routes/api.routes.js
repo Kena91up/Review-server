@@ -4,12 +4,14 @@ const axios = require("axios")
 
 router.get("/businesses", (req, res, next) => {
   //cons {searchTerm} = req.body
-  axios.get('https://api.yelp.com/v3/businesses/search', {
+  axios.get('https://api.yelp.com/v3/businesses/search?location=${locationSearched}', {
     headers: {
       Authorization: `Bearer ${process.env.API_KEY}`
     },
       params:{
-        location: `London`
+        //categories: 'breakfast_brunch',
+        city: 'London',
+        limit: 50,
       }
   })
   .then((response) =>{
@@ -19,6 +21,23 @@ router.get("/businesses", (req, res, next) => {
     console.log(err)
   })
 });
+
+//route to handle dynamic searches for restaurant details
+
+router.get("/businesses/:restaurantId", (req, res, next) => {
+  axios.get(`https://api.yelp.com/v3/businesses/${req.params.restaurantId}`, {
+    headers: {
+      Authorization: `Bearer ${process.env.API_KEY}`
+    }
+  })
+  .then((response) =>{
+    res.status(200).json(response.data)
+  })
+  .catch((err) =>{
+    console.log(err)
+  })
+});
+
 module.exports = router;
 
 
