@@ -175,7 +175,7 @@ router.get("/user", isLoggedIn, (req, res, next) => {
 //     });
 // });
 // add some extra details in user profile
-router.patch("/user/update", isLoggedIn, (req, res, next) => {
+router.patch("/user", isLoggedIn, (req, res, next) => {
   let email = req.session.loggedInUser.email;
   const { country, favorite, profileimage } = req.body;
 

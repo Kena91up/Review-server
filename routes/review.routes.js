@@ -41,4 +41,18 @@ let review = {
       })  
 
   })
+
+  /*
+  router.post("/upload", function(req, res, next) {
+     const fileGettingUploaded = req.body.image;
+ 
+     cloudinary.uploader.upload(fileGettingUploaded, function(response, error) {
+         if (response) {
+             res.status(200).json(response);
+         } else {
+             res.status(500).json(response);
+         }
+     });
+ });
+ */
    module.exports = router;
