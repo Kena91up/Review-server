@@ -1,16 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const axios = require("axios")
+const axios = require("axios");
+const Review = require('../models/Review.model');
 
 router.get("/businesses", (req, res, next) => {
-  //cons {searchTerm} = req.body
-
+  
   axios.get('https://api.yelp.com/v3/businesses/search?location=${locationSearched}', {
     headers: {
       Authorization: `Bearer ${process.env.API_KEY}`
     },
       params:{
-        //categories: 'breakfast_brunch',
         city: 'London',
         limit: 50,
       }
@@ -38,6 +37,9 @@ router.get("/businesses/:restaurantId", (req, res, next) => {
     console.log(err)
   })
 });
+
+//request to the API to handle saving of restaurant name and city to be displayed on user's profile
+
 
 module.exports = router;
 

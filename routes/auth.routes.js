@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const uploader = require("../config/cloudinary.config");
+const Review = require("../models/Review.model");
 
 //we installed bcrypt.js
 const bcrypt = require("bcryptjs");
@@ -127,7 +128,6 @@ router.post("/signin", (req, res) => {
 
 // will handle all POST requests to http:localhost:5005/api/logout
 router.post("/logout", (req, res) => {
-
   req.session.destroy();
   // Nothing to send back to the user
   res.status(204).json({});
@@ -149,42 +149,23 @@ const isLoggedIn = (req, res, next) => {
 // THIS IS A PROTECTED ROUTE
 // will handle all get requests to http:localhost:5005/api/user
 router.get("/user", isLoggedIn, (req, res, next) => {
-  console.log(req.session)
-  res.status(200).json(req.session.loggedInUser);
+  Review.find({ userId: req.session.loggedInUser._id }).then((reviews) => {
+    res.status(200).json({ ...req.session.loggedInUser, reviews });
+  });
 });
-// upload user Profilepicture
-// router.post("/user/:id/upload", uploader.single("imageUrl"), (req, res, next) => {
-//   let pictureUrl = "";
-//   req.file
-//     ? (pictureUrl = req.file.path)
-//     : (pictureUrl =
-//         "https://res.cloudinary.com/havya16/image/upload/v1614781683/Reviewproject/user_sxem4m.png");
-//   let editedUser = {
-//     profileimage: pictureUrl,
-//   };
 
-//   User.findOneAndUpdate({ email: req.session.loggedInUser.email }, editedUser, {
-//     new: true,
-//   })
-//    .then((response) => {
-//     req.session.loggedInUser= response
-//       res.status(200).json(response);
-//     })
-//     .catch(() => {
-//       res.status(500).json({
-//         errorMessage: "Something went wrong edditing profile",
-//         message: err,
-//       });
-//     });
-// });
 // add some extra details in user profile
 router.patch("/user", isLoggedIn, (req, res, next) => {
   let email = req.session.loggedInUser.email;
   const { country, favorite, profileimage } = req.body;
 
-  User.findByIdAndUpdate({ email: email }, { country, favorite, profileimage }, { new: true })
+  User.findByIdAndUpdate(
+    { email: email },
+    { country, favorite, profileimage },
+    { new: true }
+  )
     .then((response) => {
-      req.session.loggedInUser= response
+      req.session.loggedInUser = response;
       res.status(200).json(response, { errMess: "Edited Succesfully" });
     })
     .catch((err) => {
@@ -195,17 +176,17 @@ router.patch("/user", isLoggedIn, (req, res, next) => {
     });
 });
 //delete for userprofile
-router.delete('/user/delete', (req, res) => {
+router.delete("/user/delete", (req, res) => {
   User.findByIdAndDelete(req.params.id)
-        .then((response) => {
-             res.status(200).json(response)
-        })
-        .catch((err) => {
-             res.status(500).json({
-                  error: 'Something went wrong',
-                  message: err
-             })
-        })  
-})
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: "Something went wrong",
+        message: err,
+      });
+    });
+});
 
 module.exports = router;
