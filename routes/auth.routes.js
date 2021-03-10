@@ -150,7 +150,7 @@ const isLoggedIn = (req, res, next) => {
 // will handle all get requests to http:localhost:5005/api/user
 router.get("/user", isLoggedIn, (req, res, next) => {
   Review.find({ userId: req.session.loggedInUser._id }).then((reviews) => {
-    resqq.status(200).json({ ...req.session.loggedInUser, reviews });
+    res.status(200).json({ ...req.session.loggedInUser, reviews });
   });
 });
 // add some extra details in user profile
