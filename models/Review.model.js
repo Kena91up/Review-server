@@ -12,6 +12,8 @@ const reviewSchema = new Schema({
   rating: String,
   date: Date,
   restaurantId: String,
+  restaurantName: String,
+  restaurantLocation: String,
 });
 
 const Review = model("Review", reviewSchema);
