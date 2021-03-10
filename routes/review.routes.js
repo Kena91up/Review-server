@@ -1,9 +1,9 @@
-const express = require('express')
-const router = express.Router()
-const Review = require('../models/Review.model');
+const express = require("express");
+const router = express.Router();
+const Review = require("../models/Review.model");
 
 // find reviews by Id
-router.get('/review/:id', (req, res) => {
+router.get("/review/:id", (req, res) => {
   /*
 const{title, description, image, date} = req.body;
 let review = {
@@ -13,46 +13,30 @@ let review = {
   date: date 
 */
 
-  Review.findById(req.params.userId,)
-   .then((response) => {
-        res.status(200).json(response)
-   })
-   .catch((err) => {
-        res.status(500).json({
-             error: 'Something went wrong',
-             message: err
-        })
-   })
-  })
+  Review.findById(req.params.userId)
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: "Something went wrong",
+        message: err,
+      });
+    });
+});
 
-  router.get('/reviews', (req, res, next) => {
-       
-       const restaurantId = req.query.restaurantId;
-       
-      Review.find({restaurantId: restaurantId})
-      .then((reviews) => {
-        res.status(200).json(reviews)
-      })
-      .catch((err) => {
-          res.status(500).json({
-               error: 'Something went wrong',
-               message: err
-          })
-      })  
+router.get("/reviews", (req, res, next) => {
+  const restaurantId = req.query.restaurantId;
 
-  })
-
-  /*
-  router.post("/upload", function(req, res, next) {
-     const fileGettingUploaded = req.body.image;
- 
-     cloudinary.uploader.upload(fileGettingUploaded, function(response, error) {
-         if (response) {
-             res.status(200).json(response);
-         } else {
-             res.status(500).json(response);
-         }
-     });
- });
- */
-   module.exports = router;
+  Review.find({ restaurantId: restaurantId })
+    .then((reviews) => {
+      res.status(200).json(reviews);
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: "Something went wrong",
+        message: err,
+      });
+    });
+});
+module.exports = router;

@@ -152,40 +152,15 @@ router.get("/user", isLoggedIn, (req, res, next) => {
   console.log(req.session)
   res.status(200).json(req.session.loggedInUser);
 });
-// upload user Profilepicture
-// router.post("/user/:id/upload", uploader.single("imageUrl"), (req, res, next) => {
-//   let pictureUrl = "";
-//   req.file
-//     ? (pictureUrl = req.file.path)
-//     : (pictureUrl =
-//         "https://res.cloudinary.com/havya16/image/upload/v1614781683/Reviewproject/user_sxem4m.png");
-//   let editedUser = {
-//     profileimage: pictureUrl,
-//   };
-
-//   User.findOneAndUpdate({ email: req.session.loggedInUser.email }, editedUser, {
-//     new: true,
-//   })
-//    .then((response) => {
-//     req.session.loggedInUser= response
-//       res.status(200).json(response);
-//     })
-//     .catch(() => {
-//       res.status(500).json({
-//         errorMessage: "Something went wrong edditing profile",
-//         message: err,
-//       });
-//     });
-// });
 // add some extra details in user profile
 router.patch("/user", isLoggedIn, (req, res, next) => {
-  let email = req.session.loggedInUser.email;
+  let id = req.session.loggedInUser._id;
   const { country, favorite, profileimage } = req.body;
-
-  User.findByIdAndUpdate({ email: email }, { country, favorite, profileimage }, { new: true })
+  console.log()
+  User.findByIdAndUpdate( id, { country, favorite, profileimage }, { new: true })
     .then((response) => {
       req.session.loggedInUser= response
-      res.status(200).json(response, { errMess: "Edited Succesfully" });
+      res.status(200).json(response);
     })
     .catch((err) => {
       res.status(500).json({
