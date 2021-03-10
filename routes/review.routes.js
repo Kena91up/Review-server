@@ -4,15 +4,6 @@ const Review = require("../models/Review.model");
 
 // find reviews by Id
 router.get("/review/:id", (req, res) => {
-  /*
-const{title, description, image, date} = req.body;
-let review = {
-  title: title,
-  description: description,
-  image: image,
-  date: date 
-*/
-
   Review.findById(req.params.userId)
     .then((response) => {
       res.status(200).json(response);
@@ -40,7 +31,37 @@ let review = {
           })
       })  
      })
-
+     router.post("/add-review", (req, res, next) => {
+      axios
+        .get(`https://api.yelp.com/v3/businesses/${req.body.restaurantId}`, {
+          headers: {
+            Authorization: `Bearer ${process.env.API_KEY}`,
+          },
+        })
+        .then((response) => {
+          Review.create({
+            ...req.body,
+            userId: req.session.loggedInUser._id,
+            restaurantName: response.data.name,
+            restaurantLocation: response.data.location.city,
+          })
+            .then((data) => {
+              res.status(200).json(data);
+            })
+            .catch((err) => {
+              res.status(500).json({
+                error: "Something went wrong",
+                message: err,
+              });
+            });
+        })
+        .catch((err) => {
+          res.status(500).json({
+            error: "Something went wrong",
+            message: err,
+          });
+        });
+    });
 
   
    module.exports = router;
