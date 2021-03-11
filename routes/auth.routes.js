@@ -106,7 +106,7 @@ router.post("/signin", (req, res) => {
             res.status(500).json({
               error: "Passwords does not match",
             });
-            return;
+            // return;
           }
         })
         .catch(() => {
@@ -170,7 +170,7 @@ router.patch("/user", isLoggedIn, (req, res, next) => {
       });
     });
 });
-//delete for userprofile
+//delete for user profile
 router.delete("/profile/:id", (req, res) => {
   User.findByIdAndDelete(req.params.id)
     .then((response) => {
