@@ -171,7 +171,7 @@ router.patch("/user", isLoggedIn, (req, res, next) => {
     });
 });
 //delete for user profile
-router.delete("/profile", (req, res) => {
+router.delete("/profile/:id", (req, res) => {
   User.findByIdAndDelete(req.params.id)
     .then((response) => {
       res.status(200).json(response);
